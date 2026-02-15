@@ -32,7 +32,14 @@ The Collaborative Task Manager is designed to streamline team productivity. It a
 
 ## 🏗️ Architecture
 
-The project follows a modern, scalable architecture:
+The project follows a modern, scalable architecture. Detailed documentation for each layer is available below:
+
+- [Frontend Architecture](./FRONTEND_ARCHITECTURE.md)
+- [Backend Architecture](./BACKEND_ARCHITECTURE.md)
+- [Database Schema](./DATABASE_SCHEMA.MD)
+- [API Contract Design](./API_CONTRACT.md)
+- [Real-time Sync Strategy](./REALTIME_STRATEGY.md)
+- [Scalability Considerations](./SCALABILITY.md)
 
 ### Backend Structure (MVC-ish)
 
@@ -132,8 +139,8 @@ The application leverages **Socket.io** to provide a "Google Docs"-like collabor
 1. **Clone the repository**:
 
    ```bash
-   git clone <repo-url>
-   cd Collaborative_Task_Manager
+   git clone https://github.com/sanke08/hintro-assignment.git
+   cd hintro-assignment
    ```
 
 2. **Backend Setup**:
@@ -158,6 +165,23 @@ The application leverages **Socket.io** to provide a "Google Docs"-like collabor
 
 4. **Access the App**:
    Open `http://localhost:5173` in your browser.
+
+---
+
+## 💡 Assumptions & Trade-offs
+
+1. **Soft Deletion**: For a task manager, user error (accidental deletion) is common. We implemented a "Trash" pattern for all major entities (Workspaces, Boards, Lists, Tasks) instead of hard deletion to allow for recovery and audit trail persistence.
+2. **State Management**: We prioritized **React Query** over Redux for server-related state. This reduces boilerplate and ensures the UI is always in sync with the backend through standardized cache invalidation patterns.
+3. **Optimistic Updates**: While some actions use optimistic UI, most rely on the invalidation pattern triggered by successful API/Socket callbacks. This ensures data integrity in a multi-user environment where race conditions could occur.
+4. **Auth Flow**: We chose HttpOnly cookies for JWT storage to protect against XSS attacks, sacrificing slightly easier client-side token access for significantly better security.
+
+## 🔑 Demo Credentials
+
+To test the application without creating a new account:
+- **Email**: `test@example.com`
+- **Password**: `password123`
+
+*(Alternatively, you can register a new account instantly.)*
 
 ---
 
